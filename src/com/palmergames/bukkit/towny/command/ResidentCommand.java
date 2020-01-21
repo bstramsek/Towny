@@ -230,8 +230,13 @@ public class ResidentCommand extends BaseCommand implements CommandExecutor {
 
 				try {
 					final Resident resident = TownyUniverse.getDataSource().getResident(split[0]);
+					final Resident pResident = TownyUniverse.getDataSource().getResident(split[0]);
 					if (!TownyUniverse.getPermissionSource().testPermission(player, PermissionNodes.TOWNY_COMMAND_RESIDENT_OTHERRESIDENT.getNode()) && (!resident.getName().equals(player.getName()))) {
-						throw new TownyException(TownySettings.getLangString("msg_err_command_disable"));
+						// Custom function: Mayor can still see info of the towns residents...
+						Town pTown = pResident.getTown();
+						Town rTown = resident.getTown();
+						if (pTown != rTown) throw new TownyException(TownySettings.getLangString("msg_resident_not_your_town"));
+						if (!(pResident.isMayor() || pResident.hasTownRank("comayor"))) throw new TownyException(TownySettings.getLangString("msg_err_command_disable"));
 					}
 					Bukkit.getScheduler().runTaskAsynchronously(this.plugin, new Runnable() {
 						@Override
