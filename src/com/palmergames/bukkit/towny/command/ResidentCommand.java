@@ -230,7 +230,7 @@ public class ResidentCommand extends BaseCommand implements CommandExecutor {
 
 				try {
 					final Resident resident = TownyUniverse.getDataSource().getResident(split[0]);
-					final Resident pResident = TownyUniverse.getDataSource().getResident(split[0]);
+					final Resident pResident = TownyUniverse.getDataSource().getResident(player);
 					if (!TownyUniverse.getPermissionSource().testPermission(player, PermissionNodes.TOWNY_COMMAND_RESIDENT_OTHERRESIDENT.getNode()) && (!resident.getName().equals(player.getName()))) {
 						// Custom function: Mayor can still see info of the towns residents...
 						Town pTown = pResident.getTown();
